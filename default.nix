@@ -23,8 +23,8 @@ pkgs.stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out/{bin,etc}
-    install -Dm755 ${./xpytile.py} $out/bin/xpytile
-    install -Dm755 ${./xpytile-remote-control.py} $out/bin/xpytile-remote-control
+    install -Dm755 xpytile.py $out/bin/xpytile
+    install -Dm755 xpytile-remote-control.py $out/bin/xpytile-remote-control
     
     # OVERRIDE SETTINGS IN THIS FILE BY CREATING ~/.config/xpytilerc
     cp xpytilerc $out/etc/

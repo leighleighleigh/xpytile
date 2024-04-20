@@ -1837,7 +1837,7 @@ def write_crashlog():
 # ----------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------------------------
-def run(window_active, window_active_parent, windowID_active):
+def run(window_active, window_active_parent, windowID_active, ignore_key_events : bool = False):
     """
     Waits for events (change of active window, window-resizing, hotkeys, remote-control-event)
     and resizes docked windows and does a little bit of tiling
@@ -1918,7 +1918,8 @@ def run(window_active, window_active_parent, windowID_active):
             update_windows_info()
 
         elif event.type == KEY_RELEASE:
-            windowID_active, window_active = handle_key_event(event.detail, windowID_active, window_active)
+            if not ignore_key_events:
+              windowID_active, window_active = handle_key_event(event.detail, windowID_active, window_active)
 # ----------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -1943,6 +1944,7 @@ def main():
     # --- Command line arguments ---
     global verbosityLevel
     parser = argparse.ArgumentParser(prog='xpytile.py')
+    parser.add_argument('-no-kb', '--no-keyboard', action="store_true", help='Do not listen for keyboard events, listen for remote control only.')
     parser.add_argument('-v', '--verbose', action="store_true", help='Print name and title of new windows')
     parser.add_argument('-vv', '--verbose2', action="store_true",
                         help='also print details about checking name and title whether to ignore the new window')
@@ -1972,7 +1974,7 @@ def main():
         # Initialize
         window_active, window_active_parent, windowID_active = init(configFilePath)
         # Run: wait for events and handle them
-        run(window_active, window_active_parent, windowID_active)
+        run(window_active, window_active_parent, windowID_active, args.no_keyboard)
     except KeyboardInterrupt:
         raise SystemExit(' terminated by ctrl-c')
     except SystemExit:

@@ -1909,6 +1909,11 @@ def run(window_active, window_active_parent, windowID_active, ignore_key_events 
             else:
                 # A window was moved. Check whether its new position should trigger re-tiling.
                 geometry = get_window_geometry(window_active)
+
+                # sometimes this bit crashes when geometry is None, so we check it
+                if geometry is None:
+                  continue
+
                 workAreaWidth, workAreaHeight = Xroot.get_full_property(NET_WORKAREA, 0).value.tolist()[2:4]
                 if geometry.x <= -20 or geometry.y <= -20 \
                         or geometry.x + geometry.width > workAreaWidth + 20 \

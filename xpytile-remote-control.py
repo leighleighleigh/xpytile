@@ -32,7 +32,7 @@ import Xlib.display
 import Xlib.X
 import Xlib.protocol
 
-
+help_txt = """
 # ----------------------------------------------------------------------------------------------------------------------
 # no. command
 #  0  toggleResize
@@ -62,10 +62,11 @@ import Xlib.protocol
 # 24  focusDown
 # 25  focusPrevious
 # ----------------------------------------------------------------------------------------------------------------------
-
+"""
 
 if len(sys.argv) != 2:
     print('missing command number')
+    print(help_txt)
     sys.exit(1)
 
 cmd = sys.argv[1]
@@ -73,6 +74,7 @@ try:
     cmdNum = int(cmd)
 except ValueError:
     print('invalid command number')
+    print(help_txt)
     sys.exit(1)
 
 
